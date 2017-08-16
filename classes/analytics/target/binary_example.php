@@ -41,7 +41,7 @@ class binary_example extends \core_analytics\local\target\binary {
      * @return string
      */
     public static function get_name() {
-        return 'binary example';
+        return 'binary example (random calculation)';
     }
 
     /**
@@ -50,7 +50,7 @@ class binary_example extends \core_analytics\local\target\binary {
      * @return array
      */
     protected static function classes_description() {
-        return array(0 => 'All good', 1 => 'Something wrong');
+        return array(0 => 'All good (random calculation)', 1 => 'Something wrong (random calculation)');
     }
 
     /**

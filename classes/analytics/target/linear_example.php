@@ -41,7 +41,7 @@ class linear_example extends \core_analytics\local\target\linear {
      * @return string
      */
     public static function get_name() {
-        return 'linear example';
+        return 'linear example (random calculation)';
     }
 
     /**

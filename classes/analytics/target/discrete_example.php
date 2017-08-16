@@ -41,7 +41,7 @@ class discrete_example extends \core_analytics\local\target\discrete {
      * @return string
      */
     public static function get_name() {
-        return 'discrete example';
+        return 'discrete example (random calculation)';
     }
 
     /**
@@ -68,7 +68,7 @@ class discrete_example extends \core_analytics\local\target\discrete {
      * @return array
      */
     protected static function classes_description() {
-        return array(1 => 'take care', 2 => 'all good');
+        return array(1 => 'take care (random calculation)', 2 => 'all good (random calculation)');
     }
 
     /**
