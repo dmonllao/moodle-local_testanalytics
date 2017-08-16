@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2016 David Monllao {@link http://www.davidmonllao.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class empty_setting extends \core_analytics\local\indicator\binary {
+class set_setting extends \core_analytics\local\indicator\binary {
 
     /**
      * get_name
@@ -39,7 +39,7 @@ class empty_setting extends \core_analytics\local\indicator\binary {
      * @return string
      */
     public static function get_name() {
-        return 'empty setting';
+        return 'Setting is set';
     }
 
     /**
@@ -64,8 +64,8 @@ class empty_setting extends \core_analytics\local\indicator\binary {
 
         $config = $this->retrieve('config', $sampleid);
         if (empty($config->value)) {
-            return 1;
+            return -1;
         }
-        return -1;
+        return 1;
     }
 }

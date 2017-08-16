@@ -146,6 +146,6 @@ class discrete_example extends \core_analytics\local\target\discrete {
      * @return float
      */
     protected function calculate_sample($sampleid, \core_analytics\analysable $analysable, $starttime = false, $endtime = false) {
-        return (int)rand(1, 2);
+        return rand(1, 2);
     }
 }

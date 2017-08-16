@@ -21,7 +21,7 @@ function xmldb_local_testanalytics_install() {
 
     \core\session\manager::set_user(get_admin());
 
-    $indicator = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\empty_setting');
+    $indicator = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\set_setting');
     $indicators = array($indicator->get_id() => $indicator);
 
     $target = \core_analytics\manager::get_target('\local_testanalytics\analytics\target\linear_example');
@@ -30,6 +30,10 @@ function xmldb_local_testanalytics_install() {
 
 
     $target = \core_analytics\manager::get_target('\local_testanalytics\analytics\target\discrete_example');
+    $model = \core_analytics\model::create($target, $indicators, '\core\analytics\time_splitting\single_range');
+    $model->enable();
+
+    $target = \core_analytics\manager::get_target('\local_testanalytics\analytics\target\binary_example');
     $model = \core_analytics\model::create($target, $indicators, '\core\analytics\time_splitting\single_range');
     $model->enable();
 }

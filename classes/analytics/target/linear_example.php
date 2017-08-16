@@ -130,6 +130,6 @@ class linear_example extends \core_analytics\local\target\linear {
      * @return float
      */
     protected function calculate_sample($sampleid, \core_analytics\analysable $analysable, $starttime = false, $endtime = false) {
-        return (int)rand(0, 10);
+        return mt_rand(self::get_min_value() * 100, self::get_max_value() * 100) / 100;
     }
 }
