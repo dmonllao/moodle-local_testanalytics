@@ -90,6 +90,23 @@ class linear_example extends \core_analytics\local\target\linear {
     }
 
     /**
+     * How positive is this calculated value?
+     *
+     * @param float $value
+     * @param string $ignoredsubtype
+     * @return int
+     */
+    public function get_calculation_outcome($value, $ignoredsubtype = false) {
+
+        // This is very generic, targets will probably be interested in overwriting this.
+        $diff = static::get_max_value() - static::get_min_value();
+        if (($value - static::get_min_value()) / $diff >= 0.5) {
+            return self::OUTCOME_VERY_POSITIVE;
+        }
+        return self::OUTCOME_VERY_NEGATIVE;
+    }
+
+    /**
      * is_valid_analysable
      *
      * @param \core_analytics\analysable $analysable
