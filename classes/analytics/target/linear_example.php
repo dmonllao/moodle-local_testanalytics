@@ -40,8 +40,8 @@ class linear_example extends \core_analytics\local\target\linear {
      *
      * @return string
      */
-    public static function get_name() {
-        return 'linear example (random calculation)';
+    public static function get_name() : \lang_string {
+        return new \lang_string('linear', 'local_testanalytics');
     }
 
     /**

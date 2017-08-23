@@ -40,8 +40,8 @@ class discrete_example extends \core_analytics\local\target\discrete {
      *
      * @return string
      */
-    public static function get_name() {
-        return 'discrete example (random calculation)';
+    public static function get_name() : \lang_string {
+        return new \lang_string('discrete', 'local_testanalytics');
     }
 
     /**

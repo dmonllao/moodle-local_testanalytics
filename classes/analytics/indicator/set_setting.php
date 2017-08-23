@@ -38,8 +38,8 @@ class set_setting extends \core_analytics\local\indicator\binary {
      *
      * @return string
      */
-    public static function get_name() {
-        return 'Setting is set';
+    public static function get_name(): \lang_string {
+        return new \lang_string('setting', 'local_testanalytics');
     }
 
     /**
