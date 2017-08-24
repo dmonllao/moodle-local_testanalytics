@@ -124,7 +124,7 @@ class config_settings extends \core_analytics\local\analyser\sitewide {
      * @return array array(string, \renderable)
      */
     public function sample_description($sampleid, $contextid, $sampledata) {
-        $description = 'Config setting with name "' . $sampledata['config']->name . '"';
+        $description = $sampledata['config']->name;
         $image = new \pix_icon('i/settings', get_string('view'));
         return array($description, $image);
     }
