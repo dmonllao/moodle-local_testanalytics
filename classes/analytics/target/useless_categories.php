@@ -47,10 +47,10 @@ class useless_categories extends \core_analytics\local\target\binary {
     /**
      * get_name
      *
-     * @return string
+     * @return \lang_string
      */
-    public static function get_name() {
-        return 'Useless categories (example model)';
+    public static function get_name(): \lang_string {
+        return new \lang_string('uselesscat', 'local_testanalytics');
     }
 
     /**

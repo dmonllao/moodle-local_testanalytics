@@ -47,10 +47,10 @@ class undead_users extends \core_analytics\local\target\binary {
     /**
      * get_name
      *
-     * @return string
+     * @return \lang_string
      */
-    public static function get_name() {
-        return 'Undead users (example model)';
+    public static function get_name(): \lang_string {
+        return new \lang_string('undeadusers', 'local_testanalytics');
     }
 
     /**

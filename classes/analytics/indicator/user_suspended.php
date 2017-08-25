@@ -36,10 +36,10 @@ class user_suspended extends \core_analytics\local\indicator\binary {
     /**
      * get_name
      *
-     * @return string
+     * @return \lang_string
      */
-    public static function get_name() {
-        return 'User is suspended';
+    public static function get_name(): \lang_string {
+        return new \lang_string('suspendeduser', 'local_testanalytics');
     }
 
     /**
