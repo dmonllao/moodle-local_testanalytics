@@ -40,3 +40,5 @@ $string['undeadusers'] = 'Undead users';
 $string['undeadusers_help'] = 'Undead users HELP';
 $string['uselesscat'] = 'Useless categories';
 $string['uselesscat_help'] = 'Useless categories HELP';
+$string['withoutpic'] = 'Users without pic';
+$string['withoutpic_help'] = 'Users without pic HELP';
