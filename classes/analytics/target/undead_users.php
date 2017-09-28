@@ -130,8 +130,9 @@ class undead_users extends \core_analytics\local\target\binary {
      * @return float
      */
     protected function calculate_sample($sampleid, \core_analytics\analysable $analysable, $starttime = false, $endtime = false) {
-        $deleted = $this->retrieve('\local_testanalytics\analytics\indicator\user_suspended', $sampleid);
-        if ($deleted == 1) {
+        $suspended = $this->retrieve('\local_testanalytics\analytics\indicator\user_suspended', $sampleid);
+        $activity = $this->retrieve('\local_testanalytics\analytics\indicator\user_activity', $sampleid);
+        if ($suspended == 1 || $activity == -1) {
             return 1;
         }
         return 0;

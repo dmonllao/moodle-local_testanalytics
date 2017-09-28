@@ -46,8 +46,9 @@ function xmldb_local_testanalytics_install() {
     }
 
     if (!in_array('\local_testanalytics\analytics\target\undead_users', $usedtargets)) {
-        $indicator = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\user_suspended');
-        $indicators = array($indicator->get_id() => $indicator);
+        $indicator1 = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\user_suspended');
+        $indicator2 = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\user_activity');
+        $indicators = array($indicator1->get_id() => $indicator1, $indicator2->get_id() => $indicator2);
         $target = \core_analytics\manager::get_target('\local_testanalytics\analytics\target\undead_users');
         $model = \core_analytics\model::create($target, $indicators, '\core\analytics\time_splitting\single_range');
         $model->enable();
