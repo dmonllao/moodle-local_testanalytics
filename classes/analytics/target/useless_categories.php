@@ -45,6 +45,13 @@ class useless_categories extends \core_analytics\local\target\binary {
     }
 
     /**
+     * @return false
+     */
+    public function ignored_predicted_classes() {
+        return array(0);
+    }
+
+    /**
      * get_name
      *
      * @return \lang_string
@@ -69,15 +76,6 @@ class useless_categories extends \core_analytics\local\target\binary {
      */
     public function get_analyser_class() {
         return '\local_testanalytics\analytics\analyser\course_categories';
-    }
-
-    /**
-     * No ignored classes, we want to see them all.
-     *
-     * @return false
-     */
-    public function ignored_predicted_classes() {
-        return array();
     }
 
     /**
