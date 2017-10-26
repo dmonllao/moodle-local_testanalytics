@@ -23,19 +23,34 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+$string['assignclosetodue'] = 'Submit assignment close to due date';
+$string['assignclosetodue_help'] = 'Submit assignment close to due date';
 $string['pluginname'] = 'Test analytics';
-$string['setting'] = 'Test setting is set';
-$string['setting_help'] = 'Test setting is set HELP';
 $string['binary'] = 'Binary';
 $string['binary_help'] = 'Binary HELP';
+$string['choiceclosetoclose'] = 'Submit choice answer close to close date';
+$string['choiceclosetoclose_help'] = 'Submit choice answer close to close date';
 $string['discrete'] = 'Discrete';
 $string['discrete_help'] = 'Discrete HELP';
 $string['emptycat'] = 'Category is empty';
 $string['emptycat_help'] = 'Categories without courses.';
+$string['gradeitemweight'] = 'Activity weight in gradebook';
+$string['gradeitemweight_help'] = 'Activity weight in gradebook HELP';
+$string['gradetopassset'] = 'Grade to pass is set';
+$string['gradetopassset_help'] = 'Grade to pass is set';
+$string['lateassignsubmission'] = 'Late assignment submission';
+$string['lateassignsubmission_help'] = 'Late assignment submission';
 $string['linear'] = 'Linear';
 $string['linear_help'] = 'Linear HELP';
+$string['noactivities'] = 'No activities';
+$string['quizclosetodue'] = 'Submit quiz close to close date';
+$string['quizclosetodue_help'] = 'Submit quiz close to close date';
+$string['setting'] = 'Test setting is set';
+$string['setting_help'] = 'Test setting is set HELP';
 $string['suspendeduser'] = 'User is suspended';
 $string['suspendeduser_help'] = 'Suspended users.';
+$string['timesplitting:closetodeadline'] = 'Close to the deadline';
+$string['timesplitting:closetodeadline_help'] = 'This time-splitting method retrieve predictions a week and 2 days before the analysable end date.';
 $string['undeadusers'] = 'Inactive users';
 $string['undeadusers_help'] = 'This target identifies users that are not or will not be active.';
 $string['uselesscat'] = 'Categories without purpose';
