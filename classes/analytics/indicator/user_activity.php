@@ -32,6 +32,17 @@ defined('MOODLE_INTERNAL') || die();
 class user_activity extends \core\analytics\indicator\read_actions {
 
     /**
+     * Returns the name.
+     *
+     * If there is a corresponding '_help' string this will be shown as well.
+     *
+     * @return \lang_string
+     */
+    public static function get_name() : \lang_string {
+        return new \lang_string('useractivity', 'local_testanalytics');
+    }
+
+    /**
      * required_sample_data
      *
      * @return string[]

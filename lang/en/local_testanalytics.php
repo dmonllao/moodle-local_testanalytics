@@ -40,5 +40,7 @@ $string['undeadusers'] = 'Inactive users';
 $string['undeadusers_help'] = 'This target identifies users that are not or will not be active.';
 $string['uselesscat'] = 'Categories without purpose';
 $string['uselesscat_help'] = 'This target identifies categories without purpose.';
+$string['useractivity'] = 'User activity';
+$string['useractivity_help'] = 'User activity HELP';
 $string['withoutpic'] = 'Users without pic';
 $string['withoutpic_help'] = 'Users without pic HELP';
