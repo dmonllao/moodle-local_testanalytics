@@ -72,12 +72,13 @@ function xmldb_local_testanalytics_install() {
 
     if (!in_array('\local_testanalytics\analytics\target\late_assign_submission', $usedtargets)) {
         $indicator1 = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\grade_to_pass_set');
-        $indicator2 = \core_analytics\manager::get_indicator('\core_course\analytics\indicator\completion_enabled');
-        $indicator3 = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\submit_close_to_due');
-        $indicator4 = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\submit_close_to_close');
-        $indicator5 = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\submit_choice_close_to_close');
-        $indicator6 = \core_analytics\manager::get_indicator('\core\analytics\indicator\any_write_action');
-        $indicator7 = \core_analytics\manager::get_indicator('\core\analytics\indicator\read_actions');
+        $indicator2 = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\grade_item_weight');
+        $indicator3 = \core_analytics\manager::get_indicator('\core_course\analytics\indicator\completion_enabled');
+        $indicator4 = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\submit_close_to_due');
+        $indicator5 = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\submit_close_to_close');
+        $indicator6 = \core_analytics\manager::get_indicator('\local_testanalytics\analytics\indicator\submit_choice_close_to_close');
+        $indicator7 = \core_analytics\manager::get_indicator('\core\analytics\indicator\any_write_action');
+        $indicator8 = \core_analytics\manager::get_indicator('\core\analytics\indicator\read_actions');
         $indicators = array(
             $indicator1->get_id() => $indicator1,
             $indicator2->get_id() => $indicator2,
@@ -86,6 +87,7 @@ function xmldb_local_testanalytics_install() {
             $indicator5->get_id() => $indicator5,
             $indicator6->get_id() => $indicator6,
             $indicator7->get_id() => $indicator7,
+            $indicator8->get_id() => $indicator8,
         );
         $target = \core_analytics\manager::get_target('\local_testanalytics\analytics\target\late_assign_submission');
         $model = \core_analytics\model::create($target, $indicators, '\local_testanalytics\analytics\time_splitting\close_to_deadline');
