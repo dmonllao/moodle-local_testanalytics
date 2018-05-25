@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright 2016 David Monllao {@link http://www.davidmonllao.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class submit_close_to_due extends \core_analytics\local\indicator\binary {
+class submit_close_to_due extends \core_analytics\local\indicator\linear {
 
     /**
      * @var \stdClass[] No memory usage worries, indicators are filled per-analysable basis.
@@ -86,6 +86,11 @@ class submit_close_to_due extends \core_analytics\local\indicator\binary {
 
         $modinfo = get_fast_modinfo($course, $user->id);
         foreach ($modinfo->get_instances_of(static::$modulename) as $cm) {
+
+            if ($cm->id == $coursemodule->id) {
+                // Skip this sample assignment.
+                continue;
+            }
 
             if (empty($this->cms[$cm->id])) {
                 $this->cms[$cm->id] = $DB->get_record($cm->modname, array('id' => $cm->instance));

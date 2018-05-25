@@ -127,8 +127,7 @@ class assign implements \core_analytics\analysable {
         if ($this->instance->duedate) {
             return $this->instance->duedate;
         }
-
-        return $this->instance->cutoffdate;
+        return false;
     }
 
     public function get_cm_info() {

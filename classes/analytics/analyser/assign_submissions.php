@@ -26,6 +26,7 @@ namespace local_testanalytics\analytics\analyser;
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/mod/assign/locallib.php');
+require_once($CFG->dirroot . '/lib/enrollib.php');
 
 /**
  *
@@ -96,20 +97,46 @@ class assign_submissions extends by_activity {
             return $samples;
         }
 
+        $userids = array_keys($participants);
+
         // TODO assign API.
-        list($sql, $params) = $DB->get_in_or_equal(array_keys($participants), SQL_PARAMS_NAMED);
-        $params['assign'] = $cm->get_cm_info()->instance;
-        $submissions = $DB->get_records_select('assign_submission', "assignment = :assign AND userid $sql", $params);
+        list($usersql, $userparams) = $DB->get_in_or_equal($userids, SQL_PARAMS_NAMED);
+        $params = $userparams + ['assign' => $cm->get_cm_info()->instance];
+        $submissions = $DB->get_records_select('assign_submission', "assignment = :assign AND userid $usersql", $params);
+
+        $params = ['courseid' => $cm->get_cm_info()->course] + $userparams;
+        $lastaccesses = $DB->get_records_sql("SELECT DISTINCT userid, timeaccess FROM {user_lastaccess} WHERE courseid = :courseid AND userid $usersql", $params);
+
+        $enrolments = enrol_get_course_users($cm->get_cm_info()->get_course()->id, true, $userids);
+        $uebyuserid = array_reduce($enrolments, function($carry, $ue) {
+            $carry[$ue->id] = (object)[
+                'id' => $ue->ueid,
+                'userid' => $ue->id,
+                'status' => $ue->uestatus,
+                'enrolid' => $ue->ueenrolid,
+                'timestart' => $ue->uetimestart,
+                'timeend' => $ue->uetimeend,
+                'modifierid' => $ue->uemodifierid,
+                'timecreated' => $ue->uetimecreated,
+                'timemodified' => $ue->uetimemodified,
+            ];
+            return $carry;
+        }, []);
+
         foreach ($submissions as $as) {
             $samples[0][$as->id] = $as->id;
             $samples[1][$as->id] = array(
                 'course' => $assign->get_course(),
                 'user' => $participants[$as->userid],
+                'user_enrolments' => $uebyuserid[$as->userid],
                 'context' => $cm->get_cm_info()->context,
                 'course_modules' => $cm->get_cm_info()->get_course_module_record(),
                 'assign' => $assign->get_instance(),
                 'assign_submission' => $as
             );
+            if (!empty($lastaccesses[$as->userid])) {
+                $samples[1][$as->id]['user_lastaccess'] = $lastaccesses[$as->userid];
+            }
         }
         return $samples;
     }
@@ -134,6 +161,8 @@ class assign_submissions extends by_activity {
         $cms = [];
         $assigns = [];
         $participants = [];
+        $uebyuserid = [];
+        $lastaccess = [];
 
         $samples = array([], []);
         foreach ($submissions as $as) {
@@ -143,17 +172,45 @@ class assign_submissions extends by_activity {
                 $cms[$cm->id] = $cm;
                 $assigns[$as->assignment] = new \assign($cm->context, $cms[$cm->id], $course);
                 $participants[$as->assignment] = $assign->list_participants(0, false);
+
+                if (empty($uebyuserid[$as->course])) {
+                    $enrolments = enrol_get_course_users($as->course, true, array_keys($participants[$as->assignment]));
+                    $uebyuserid[$as->course] = array_reduce($enrolments, function($carry, $ue) {
+                        $carry[$ue->id] = (object)[
+                            'id' => $ue->ueid,
+                            'userid' => $ue->id,
+                            'status' => $ue->uestatus,
+                            'enrolid' => $ue->ueenrolid,
+                            'timestart' => $ue->uetimestart,
+                            'timeend' => $ue->uetimeend,
+                            'modifierid' => $ue->uemodifierid,
+                            'timecreated' => $ue->uetimecreated,
+                            'timemodified' => $ue->uetimemodified,
+                        ];
+                        return $carry;
+                    }, []);
+                }
+
+                if (empty($lastaccess[$as->course])) {
+                    list($usersql, $userparams) = $DB->get_in_or_equal(array_keys($participants[$as->assignment]), SQL_PARAMS_NAMED);
+                    $params = ['courseid' => $cm->get_cm_info()->course] + $userparams;
+                    $lastaccess[$as->course] = $DB->get_records_sql("SELECT DISTINCT userid, timeaccess FROM {user_lastaccess} WHERE courseid = :courseid AND userid $usersql", $params);
+                }
             }
 
             $samples[0][$as->id] = $as->id;
             $samples[1][$as->id] = array(
                 'course' => $assigns[$as->assignment]->get_course(),
                 'user' => $participants[$as->assignment][$as->userid],
+                'user_enrolments' => $uebyuserid[$as->course][$as->userid],
                 'context' => $cms[$as->assignment]->get_cm_info()->context,
                 'course_modules' => $cms[$as->assignment]->get_cm_info()->get_course_module_record(),
                 'assign' => $assigns[$as->assignment]->get_instance(),
                 'assign_submission' => $as
             );
+            if (!empty($lastaccess[$as->course]) && !empty($lastaccess[$as->course][$as->userid])) {
+                $samples[1][$as->id]['user_lastaccess'] = $lastaccess[$as->course][$as->userid];
+            }
         }
 
         return $samples;

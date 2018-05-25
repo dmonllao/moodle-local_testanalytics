@@ -88,7 +88,7 @@ class late_assign_submission extends \core_analytics\local\target\binary {
     }
 
     /**
-     * Is this sample from the $analysable valid?
+     * Checks user enrolments timestart and timeends.
      *
      * @param int $sampleid
      * @param \core_analytics\analysable $analysable
@@ -96,6 +96,47 @@ class late_assign_submission extends \core_analytics\local\target\binary {
      * @return bool
      */
     public function is_valid_sample($sampleid, \core_analytics\analysable $cm, $fortraining = true) {
+
+        $userenrol = $this->retrieve('user_enrolments', $sampleid);
+        $lastaccess = $this->retrieve('user_lastaccess', $sampleid);
+        $course = $this->retrieve('course', $sampleid);
+        $assign = $this->retrieve('assign', $sampleid);
+
+        if (!$lastaccess) {
+            return false;
+        }
+
+        if ($userenrol->timeend &&
+                ($course->startdate > $userenrol->timeend || $assign->duedate > $userenrol->timeend)) {
+            // Discard enrolments which time end is prior to the course start or assignment due date. This should get rid of
+            // old user enrolments that remain on the course.
+            return false;
+        }
+
+        if ($assign->duedate) {
+            $limit = $assign->duedate - (YEARSECS + (WEEKSECS * 4));
+        } else if ($course->startdate) {
+            $limit = $course->startdate - (YEARSECS + (WEEKSECS * 4));
+        }
+
+        if ($limit) {
+
+            if (($userenrol->timestart && $userenrol->timestart < $limit) ||
+                    (!$userenrol->timestart && $userenrol->timecreated < $limit)) {
+                // We will discard enrolments that last more than 1 academic year
+                // because they have incorrect start and end dates or because they are reused along multiple years
+                // without removing previous academic years students. This may not be very accurate because some courses
+                // can last just some months, but it is better than nothing and they will be flagged as drop out anyway
+                // in most of the cases.
+                return false;
+            }
+
+            // Same reason than above.
+            if ($lastaccess->timeaccess < $limit) {
+                return false;
+            }
+        }
+
         return true;
     }
 
