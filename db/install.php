@@ -80,8 +80,6 @@ function xmldb_local_testanalytics_install() {
         $indicator7 = \core_analytics\manager::get_indicator('\core\analytics\indicator\any_write_action');
         $indicator8 = \core_analytics\manager::get_indicator('\core\analytics\indicator\any_write_action_in_course');
         $indicator9 = \core_analytics\manager::get_indicator('\core\analytics\indicator\read_actions');
-        $indicator10 = \core_analytics\manager::get_indicator('\mod_assign\analytics\indicator\cognitive_depth');
-        $indicator11 = \core_analytics\manager::get_indicator('\mod_assign\analytics\indicator\social_breadth');
         $indicators = array(
             $indicator1->get_id() => $indicator1,
             $indicator2->get_id() => $indicator2,
@@ -92,8 +90,6 @@ function xmldb_local_testanalytics_install() {
             $indicator7->get_id() => $indicator7,
             $indicator8->get_id() => $indicator8,
             $indicator9->get_id() => $indicator9,
-            $indicator10->get_id() => $indicator10,
-            $indicator11->get_id() => $indicator11,
         );
         $target = \core_analytics\manager::get_target('\local_testanalytics\analytics\target\late_assign_submission');
         $model = \core_analytics\model::create($target, $indicators, '\local_testanalytics\analytics\time_splitting\close_to_deadline');
