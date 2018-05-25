@@ -31,12 +31,12 @@ require_once($CFG->libdir . '/gradelib.php');
  * @copyright 2016 David Monllao {@link http://www.davidmonllao.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class grade_item_weight extends \core_analytics\local\indicator\linear {
+class grade_item_weight extends \core_analytics\local\indicator\discrete {
 
     /**
      * @var \stdClass[] No memory usage worries, indicators are filled per-analysable basis.
      */
-    protected $cmweights = [];
+    protected $cmclass = [];
 
     /**
      * Returns the name.
@@ -58,6 +58,14 @@ class grade_item_weight extends \core_analytics\local\indicator\linear {
         return array('course_modules');
     }
 
+    protected static function get_classes() {
+        return [0, 1, 2, 3, 4];
+    }
+
+    public function get_calculation_outcome($value, $subtype = false) {
+		return self::OUTCOME_OK;
+    }
+
     /**
      * calculate_sample
      *
@@ -72,19 +80,19 @@ class grade_item_weight extends \core_analytics\local\indicator\linear {
 
         $cm = $this->retrieve('course_modules', $sampleid);
 
-        if (!isset($this->cmweights[$cm->id])) {
+        if (!isset($this->cmclass[$cm->id])) {
             $module = $DB->get_record('modules', array('id' => $cm->module));
             $params = array('itemtype' => 'mod', 'itemmodule' => $module->name, 'iteminstance' => $cm->instance);
             $gi = \grade_item::fetch($params);
             if (!$gi) {
-                $this->cmweights[$cm->id] = null;
-                return $this->cmweights[$cm->id];
+                $this->cmclass[$cm->id] = null;
+                return $this->cmclass[$cm->id];
             }
 
             if ($gi->gradetype === GRADE_TYPE_NONE) {
                 // This is equal to the 0 below, so minimum grade.
-                $this->cmweights[$cm->id] = self::get_min_value();
-                return $this->cmweights[$cm->id];
+                $this->cmclass[$cm->id] = 0;
+                return $this->cmclass[$cm->id];
             }
 
             // TODO This should be part of grades API. I am probably missing important stuff.
@@ -96,23 +104,22 @@ class grade_item_weight extends \core_analytics\local\indicator\linear {
                 $category = $category->get_parent_category();
             }
 
-            // Get the score from the 0 - 1.
-            $ranges = array(
-                array('eq', 0),
-                array('le', 0.05),
-                array('le', 0.1),
-                // Important activities
-                array('le', 0.2),
-                // Very important activities
-                array('gt', 0.2),
-                array('gt', 0.5)
-            );
-            $this->cmweights[$cm->id] = $this->classify_value($weight, $ranges);
+            if ($weight == 0) {
+                $this->cmclass[$cm->id] = 0;
+            } else if ($weight < 0.1) {
+                $this->cmclass[$cm->id] = 1;
+            } else if ($weight < 0.2) {
+                $this->cmclass[$cm->id] = 2;
+            } else if ($weight < 0.5) {
+                $this->cmclass[$cm->id] = 3;
+            } else {
+                $this->cmclass[$cm->id] = 4;
+            }
         }
 
-        if (!$this->cmweights[$cm->id]) {
+        if (!$this->cmclass[$cm->id]) {
             return null;
         }
-        return $this->cmweights[$cm->id];
+        return $this->cmclass[$cm->id];
     }
 }
