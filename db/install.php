@@ -30,19 +30,16 @@ function xmldb_local_testanalytics_install() {
     if (!in_array('\local_testanalytics\analytics\target\linear_example', $usedtargets)) {
         $target = \core_analytics\manager::get_target('\local_testanalytics\analytics\target\linear_example');
         $model = \core_analytics\model::create($target, $indicators, '\core\analytics\time_splitting\single_range');
-        $model->enable();
     }
 
     if (!in_array('\local_testanalytics\analytics\target\discrete_example', $usedtargets)) {
         $target = \core_analytics\manager::get_target('\local_testanalytics\analytics\target\discrete_example');
         $model = \core_analytics\model::create($target, $indicators, '\core\analytics\time_splitting\single_range');
-        $model->enable();
     }
 
     if (!in_array('\local_testanalytics\analytics\target\binary_example', $usedtargets)) {
         $target = \core_analytics\manager::get_target('\local_testanalytics\analytics\target\binary_example');
         $model = \core_analytics\model::create($target, $indicators, '\core\analytics\time_splitting\single_range');
-        $model->enable();
     }
 
     if (!in_array('\local_testanalytics\analytics\target\undead_users', $usedtargets)) {
@@ -51,7 +48,6 @@ function xmldb_local_testanalytics_install() {
         $indicators = array($indicator1->get_id() => $indicator1, $indicator2->get_id() => $indicator2);
         $target = \core_analytics\manager::get_target('\local_testanalytics\analytics\target\undead_users');
         $model = \core_analytics\model::create($target, $indicators, '\core\analytics\time_splitting\single_range');
-        $model->enable();
     }
 
     if (!in_array('\local_testanalytics\analytics\target\useless_categories', $usedtargets)) {
@@ -59,7 +55,6 @@ function xmldb_local_testanalytics_install() {
         $indicators = array($indicator->get_id() => $indicator);
         $target = \core_analytics\manager::get_target('\local_testanalytics\analytics\target\useless_categories');
         $model = \core_analytics\model::create($target, $indicators, '\core\analytics\time_splitting\single_range');
-        $model->enable();
     }
 
     if (!in_array('\local_testanalytics\analytics\target\without_picture', $usedtargets)) {
@@ -67,6 +62,5 @@ function xmldb_local_testanalytics_install() {
         $indicators = array($indicator->get_id() => $indicator);
         $target = \core_analytics\manager::get_target('\local_testanalytics\analytics\target\without_picture');
         $model = \core_analytics\model::create($target, $indicators, '\core\analytics\time_splitting\single_range');
-        $model->enable();
     }
 }
