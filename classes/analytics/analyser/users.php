@@ -76,7 +76,7 @@ class users extends \core_analytics\local\analyser\sitewide {
      * @param \core_analytics\analysable $site
      * @return array
      */
-    protected function get_all_samples(\core_analytics\analysable $site) {
+    public function get_all_samples(\core_analytics\analysable $site) {
         global $DB;
 
         $users = $DB->get_records('user', array('deleted' => 0));

@@ -76,7 +76,7 @@ class course_categories extends \core_analytics\local\analyser\sitewide {
      * @param \core_analytics\analysable $site
      * @return array
      */
-    protected function get_all_samples(\core_analytics\analysable $site) {
+    public function get_all_samples(\core_analytics\analysable $site) {
         global $DB;
 
         $coursecats = $DB->get_records('course_categories');
