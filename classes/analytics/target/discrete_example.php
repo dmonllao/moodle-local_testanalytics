@@ -63,6 +63,18 @@ class discrete_example extends \core_analytics\local\target\discrete {
     }
 
     /**
+     * Can the provided time-splitting method be used on this target?.
+     *
+     * Time-splitting methods not matching the target requirements will not be selectable by models based on this target.
+     *
+     * @param  \core_analytics\local\time_splitting\base $timesplitting
+     * @return bool
+     */
+    public function can_use_timesplitting(\core_analytics\local\time_splitting\base $timesplitting): bool {
+        return true;
+    }
+
+    /**
      * classes_description
      *
      * @return array
